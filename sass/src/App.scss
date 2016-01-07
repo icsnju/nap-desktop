@@ -1,0 +1,609 @@
+/*!
+* Ext JS Library 4.0
+* Copyright(c) 2006-2011 Sencha Inc.
+* licensing@sencha.com
+* http://www.sencha.com/license
+*/
+
+#poweredby {
+  position: absolute;
+  bottom: 40px;
+  right: 20px;
+  z-index: 15000;
+
+  /* IE 5-7 */
+  filter: alpha(opacity=70);
+  /* Netscape */
+  -moz-opacity: 0.7;
+  /* Safari 1.x */
+  -khtml-opacity: 0.7;
+  /* Good browsers */
+  opacity: 0.7;
+}
+
+@include extjs-tab-panel-ui(
+    $ui: 'navigation',
+    $ui-tab-background-color: transparent,
+    $ui-tab-background-color-over: #505050,
+    $ui-tab-background-color-active: #303030,
+    $ui-tab-background-gradient: 'none',
+    $ui-tab-background-gradient-over: 'none',
+    $ui-tab-background-gradient-active: 'none',
+    $ui-tab-color: #acacac,
+    $ui-tab-color-over: #c4c4c4,
+    $ui-tab-color-active: #fff,
+    $ui-tab-glyph-color: #acacac,
+    $ui-tab-glyph-color-over: #c4c4c4,
+    $ui-tab-glyph-color-active: #fff,
+    $ui-tab-glyph-opacity: 1,
+    $ui-tab-border-radius: 0,
+    $ui-tab-border-color: transparent,
+    $ui-tab-border-color-over: transparent,
+    $ui-tab-border-width: 1px,
+    $ui-tab-inner-border-width: 0,
+    $ui-tab-padding: 24px,
+    $ui-tab-margin: 0,
+    $ui-tab-font-size: 15px,
+    $ui-tab-font-size-over: 15px,
+    $ui-tab-font-size-active: 15px,
+    $ui-tab-line-height: 19px,
+    $ui-tab-font-weight: bold,
+    $ui-tab-font-weight-over: bold,
+    $ui-tab-font-weight-active: bold,
+    $ui-tab-icon-width: 24px,
+    $ui-tab-icon-height: 24px,
+    $ui-bar-background-color: #404040,
+    $ui-bar-background-gradient: 'none',
+    $ui-bar-padding: 0,
+    $ui-strip-height: 0
+);
+
+#poweredby div {
+  position: relative;
+  width: 150px;
+  height: 25px;
+  background-image: url(images/powered-by-ext-js.png);
+  background-repeat: no-repeat;
+}
+
+/* The simple background image PNG does not work in IE6-8, but does in IE9 */
+.x-ie6 #poweredby div,
+.x-ie7 #poweredby div,
+.x-ie8 #poweredby div {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/powered-by-ext-js.png', sizingMethod='scale');
+}
+
+/*----------------------------------------------------
+    Start Button
+*/
+
+.ux-start-button-icon {
+  background-image: url(images/taskbar/sencha.gif) !important;
+  background-color: transparent;
+}
+
+.ux-start-button .x-btn-arrow {
+  background-image: none;
+}
+
+.ux-taskbar {
+  padding-left: 4px !important;
+}
+
+/*
+    Start Button (Black)
+*/
+
+.ux-desktop-black .ux-start-button {
+  height: 28px;
+  padding: 0px;
+  display: block;
+}
+
+.ux-desktop-black .ux-start-button em {
+  margin-top: 5px;
+}
+
+.ux-desktop-black .ux-start-button .x-btn-inner {
+  color: black;
+  font-size:11px;
+  font-weight: bold;
+}
+
+.ux-desktop-black .ux-start-button {
+  background-image: -moz-linear-gradient(center top , #E4F3FF, #D9EDFF 48%, #C2D8F2 52%, #C6DCF6);
+  border-radius: 8px 8px 8px 8px;
+  border-color: #81A4D0;
+}
+
+/*----------------------------------------------------
+    Start Menu
+*/
+
+.ux-start-menu-toolbar .x-btn-inner {
+  text-align: left;
+}
+
+.ux-start-menu-toolbar {
+  padding: 4px !important;
+}
+
+/*----------------------------------------------------
+    TaskBar
+*/
+
+/* Use high specificity selector to override default styling*/
+div.ux-taskbar div.x-toolbar {
+  background: transparent none;
+  border: 0 none;
+  padding: 0;
+}
+
+.ux-desktop-windowbar .x-btn-inner,
+.x-nbr .ux-desktop-windowbar .x-btn-icon-text-left button {
+  text-align: left !important;
+}
+
+/*
+    TaskBar (Black)
+*/
+
+.ux-desktop-black .ux-taskbar {
+  background: transparent url('images/taskbar/black/taskbar-start-panel-bg.gif') repeat-x left top;
+  border-color: transparent;
+  /*height: 30px;*/
+}
+
+.ux-desktop-black .ux-taskbar .x-splitter {
+  background: transparent url(images/taskbar/black/taskbar-split-h.gif) no-repeat scroll 0 -2px;
+}
+
+.ux-desktop-black .ux-taskbar .x-toolbar-text {
+  color: white !important;
+}
+
+.ux-desktop-black .ux-taskbar .x-btn-default-toolbar-small-over {
+  background-color: yellow;
+}
+
+.ux-desktop-black .ux-taskbar .x-btn-inner {
+  color: white;
+}
+
+.ux-desktop-black .ux-taskbar .x-btn-pressed .x-btn-inner, .ux-taskbar .x-btn-over .x-btn-inner {
+  color: black;
+}
+
+/*----------------------------------------------------
+    Tray Clock
+*/
+
+.ux-desktop-trayclock {
+  text-align: center;
+  vertical-align: middle;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+
+/*----------------------------------------------------
+    Desktop DataView
+*/
+
+.ux-wallpaper {
+  background-color: #3d71b8;
+}
+
+.ux-wallpaper-tiled {
+  background-repeat: repeat;
+}
+
+.ux-desktop-shortcut {
+  cursor: pointer;
+  text-align: center;
+  padding: 8px;
+  margin: 8px;
+  width: 64px;
+}
+
+.ux-desktop-shortcut-icon {
+  width: 48px;
+  height: 48px;
+  background-color: transparent;
+  background-repeat: no-repeat;
+}
+
+.ux-desktop-shortcut-text {
+  font: normal 10px tahoma,arial,verdana,sans-serif;
+  text-decoration: none;
+  padding-top: 5px;
+  color: white;
+}
+
+.x-view-over .ux-desktop-shortcut-text {
+  text-decoration: underline;
+}
+
+
+/*----------------------------------------------------
+    Various icon classes
+*/
+
+.accordion-shortcut {
+  background-image: url(images/folder.png);
+}
+
+.cpu-shortcut {
+  background-image: url(images/status.png);
+}
+
+.grid-shortcut {
+  background-image: url(images/list.png);
+}
+
+.notepad-shortcut {
+  background-image: url(images/notepadLarge.png);
+  width: 46px;
+  height: 46px;
+}
+
+.create-shortcut {
+  background-image: url(images/create.png);
+}
+
+.readme-shortcut {
+  background-image: url(images/readme-icon.png);
+}
+
+.x-ie6 .accordion-shortcut {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/im48x48.png', sizingMethod='scale');
+}
+
+.x-ie6 .cpu-shortcut {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/statusLarge.png', sizingMethod='scale');
+}
+
+.x-ie6 .grid-shortcut {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/grid48x48.png', sizingMethod='scale');
+}
+
+.x-ie6 .notepad-shortcut {
+  background-image: none;
+  filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(src='images/notepadLarge.png', sizingMethod='scale');
+}
+
+
+.video {
+  background-image: url(images/gears.gif);
+}
+
+.bogus {
+  background-image: url( images/bogus.png ) !important;
+}
+
+.notepad {
+  background-image: url( images/bogus.png ) !important;
+}
+
+.logout {
+  background-image: url( images/logout.gif ) !important;
+}
+
+.settings {
+  background-image: url( images/gears.gif ) !important;
+}
+
+
+.icon-grid {
+  background-image:url( images/grid.png ) !important;
+}
+.add {
+  background-image:url( icons/fam/add.gif) !important;
+}
+.launch {
+  background-image:url( icons/launch.gif) !important;
+}
+.destroy {
+  background-image:url( icons/destroy.gif) !important;
+}
+.option {
+  background-image:url( icons/fam/plugin.gif) !important;
+}
+.remove {
+  background-image:url( icons/fam/delete.gif) !important;
+}
+.save {
+  background-image:url( icons/save.gif) !important;
+}
+.accordion {
+  background-image:url(images/accordian.gif) !important;
+}
+.tabs {
+  background-image:url(images/tabs.gif) !important;
+}
+
+.folderUp {
+  background-image: url(images/folder_up2.png) !important;
+}
+/*----------------------------------------------------
+    IM window icons
+*/
+
+.user {
+  background-image:url(  icons/fam/user.gif ) !important;
+}
+
+.user-add {
+  background-image:url( icons/fam/user_add.gif) !important;
+}
+
+.user-delete {
+  background-image:url( icons/fam/user_delete.gif) !important;
+}
+
+.connect {
+  background-image:url( icons/fam/connect.gif) !important;
+}
+
+.user-girl {
+  background-image:url( icons/fam/user_female.gif) !important;
+}
+
+.user-kid {
+  background-image:url( icons/fam/user_green.gif) !important;
+}
+
+.user-suit {
+  background-image:url( icons/fam/user_suit.gif) !important;
+}
+
+
+/*----------------codemirror----------------*/
+.CodeMirror {
+	border: 1px solid #eee;
+	height: auto;
+}
+
+.CodeMirror pre {
+	font-size: 11pt;
+	font-family: Consolas;
+}
+
+
+/*-----------------DATAVIEW-------------------*/
+
+
+.browser-view .x-panel-body{
+	background: white;
+	font: 11px Arial, Helvetica, sans-serif;
+}
+.browser-view .thumb{
+	background: #FFFFFF;
+	padding: 3px;
+	padding-bottom: 0;
+}
+.x-quirks .browser-view .thumb {
+    padding-bottom: 3px;
+}
+.browser-view .thumb img{
+	height: 64px;
+	width: 64px;
+}
+.browser-view .thumb-wrap{
+	float: left;
+	margin: 4px;
+	margin-right: 0;
+	padding: 5px;
+}
+.browser-view .thumb-wrap span{
+	display: block;
+	white-space: nowrap;
+	overflow: hidden !important;
+	text-align: center;
+    width: 64px;
+}
+
+.browser-view .x-item-over{
+    border:1px solid #dddddd;
+    background: #efefef repeat-x left top;
+    padding: 4px;
+}
+
+.browser-view .x-item-selected{
+    background: #eff5fb no-repeat right bottom;
+    border:1px solid #99bbe8;
+    padding: 4px;
+}
+.browser-view .x-item-selected .thumb{
+	background:transparent;
+}
+
+.browser-view .loading-indicator {
+	font-size:11px;
+	background-repeat: no-repeat;
+	background-position: left;
+	padding-left:20px;
+	margin:10px;
+}
+
+.x-view-selector {
+    position:absolute;
+    left:0;
+    top:0;
+    width:0;
+    border:1px dotted;
+    opacity: .5;
+    -moz-opacity: .5;
+    filter:alpha(opacity=50);
+    zoom:1;
+    background-color:#c3daf9;
+    border-color:#3399bb;
+}
+
+.ext-strict .ext-ie .x-tree .x-panel-bwrap{
+    position:relative;
+    overflow:hidden;
+}
+.x-editable {
+    color: #000;
+}
+
+
+/*-------------------------------------------------*/
+
+$lightest-color:#fff;
+$circle-border-radius:50%;
+$dialog-login-background-color: #83c748;
+$create-account-background-color: #a1a1a2;
+$dialog-trigger-color: #e5e5e5;
+$blank-page-color :#cacaca;
+
+.auth-dialog{
+
+    .auth-profile-wrap{
+        background:$base-color;
+        color:$lightest-color;
+        line-height:24px;
+        .user-name-text{
+            font-size: 18px;
+            font-weight:bold;
+        }
+        .user-post-text{
+            font-size:14px;
+        }
+        .auth-profile-img{
+            @include border-radius($circle-border-radius);
+        }
+    }
+    .x-form-text-default{
+        padding: 15px;
+    }
+
+
+    .register-page-back-button,
+    .register-page-back-button .x-frame-mc{
+        background-color: $lightest-color;
+        border:none;
+        padding:5px 0 0 0;
+        .x-btn-inner-default-small{
+            padding : 0;
+            height:20px;
+            color: $base-color;
+            &:hover{
+                text-decoration:underline;
+            }
+        }
+        &.x-btn-pressed.x-btn-default-small{
+            background-color: transparent;
+        }
+    }
+    .trigger-glyph-noop {
+        cursor:default;
+    }
+    .x-form-trigger{
+        text-align:right;
+        width:50px;
+    }
+    .password-trigger,
+    .auth-email-trigger,
+    .auth-password-trigger,
+    .auth-envelope-trigger{
+        &:before{
+            top: 10px;
+            left:-18px;
+            position: relative;
+            color: $dialog-trigger-color;
+            font-size: 30px;
+        }
+
+        &.password-trigger:before,
+        &.auth-password-trigger:before{
+            content: "\f023";
+        }
+        &.auth-email-trigger:before{
+            content: "\f007";
+        }
+        &.auth-envelope-trigger:before{
+            content: "\f0e0";
+        }
+    }
+    .seperator{
+        text-align: center;
+        color: $create-account-background-color;
+        font-family: "Open Sans";
+        display: inline-block;
+        background: $lightest-color;
+        position: relative;
+        z-index: 1;
+        padding: 0 8px;
+    }
+    .link-forgot-password {
+        line-height:32px;
+        color: $base-color;
+        text-decoration:none;
+        margin-left:5px;
+        &:hover{
+            text-decoration:underline;
+        }
+    }
+
+    .x-btn{
+        .x-btn-icon-el{
+            &:before{
+                right: 10px;
+                font-size: 24px;
+                position: absolute;
+            }
+        }
+    }
+
+    .auth-facebook-button .x-fa{
+        color: $lightest-color;
+        font-size: 24px;
+        top:10px;
+        right: 13px;
+    }
+
+    .auth-login-button .x-fa,
+    .auth-resetpassword-button .x-fa{
+        font-size: 32px;
+        right: 11px;
+        top:10px;
+        line-height: 16px;
+    }
+    .auth-create-account-button .x-fa {
+        color: $lightest-color;
+        right: 24px;
+        top:10px;
+    }
+
+    .outer-div{
+        width:100%;
+        text-align: center;
+        &:after{
+            content: " ";
+            width:100%;
+            height: 1px;
+            background-color: $blank-page-color;
+            position:absolute;
+            left: 0;
+            top: 9px;
+        }
+    }
+}
+
+.auth-locked-window{
+    .x-window-body {
+  	    background-image:url('images/lock-screen-background.jpg');
+      	background-size:cover;
+      	background-repeat:repeat;
+  	}
+      &.x-window-default{
+  	    border: none;
+  	    border-radius: 0;
+  	    padding: 0;
+  	}
+}

@@ -1,0 +1,10 @@
+[
+	{ text: "detention.js", leaf: true,id:'1'},
+	{ text: "homework", expanded: true, leaf:false, id:'2',children: [
+		{ text: "book report", leaf: true, id:'3'},
+		{ text: "alegrbra", leaf: true,id:'4'}
+	] },
+	{ text: "buy lottery tickets", leaf: true ,id:'5'}
+]
+
+
