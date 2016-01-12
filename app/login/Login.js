@@ -1,3 +1,11 @@
+Ext.getBody().addListener('click', function (event, el) {
+    var clickTarget = event.target;
+
+    if (clickTarget.href && clickTarget.href.indexOf(window.location.origin) === -1) {
+        clickTarget.target = "_blank";
+    }
+});
+
 Ext.define('Desktop.login.Login', {
     extend: 'Desktop.login.LockingWindow',
     xtype: 'login',
@@ -64,6 +72,10 @@ Ext.define('Desktop.login.Login', {
                             height: 30,
                             bind: '{persist}',
                             boxLabel: 'Remember me'
+                        },
+                        {
+                            xtype: 'box',
+                            html: '<a href="http://www.example.com" class="user-doc"> User Guide</a>'
                         }
                     ]
                 },

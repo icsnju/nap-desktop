@@ -141,6 +141,10 @@ Ext.define('treePanel', {
         });
         me.filemenu = new Ext.menu.Menu({
             items: [{
+                text: 'copy',
+                handler: this.onCopy,
+                scope: this
+            },{
                 text: 'rename',
                 handler: this.onRename,
                 scope: this
@@ -447,7 +451,6 @@ Ext.define('codeArea',{
         xtype: 'button',
         width: 75,
         text: 'save',
-    //    location: 'right',
         disabled: true,
         listeners:{
             click: function(btn){
@@ -721,7 +724,7 @@ Ext.define('Files',{
         autoScroll: true,
         tpl: [
             '<tpl for=".">',
-                '<div class="thumb-wrap" id="{text}">',
+                '<div class="thumb-wrap">',
                     '<div class="thumb"><img src="resources/images/{leaf}.png" title="{text}"></div>',
                     '<span class="x-editable">{text}</span>',
                 '</div>',
@@ -735,8 +738,8 @@ Ext.define('Files',{
         itemSelector: 'div.thumb-wrap',
         overItemCls: 'x-item-over',
         plugins: [
-            Ext.create('Ext.ux.DataView.DragSelector', {}),
-            {xclass: 'Ext.ux.DataView.Animated'}
+            Ext.create('Ext.ux.DataView.DragSelector', {})
+        //    {xclass: 'Ext.ux.DataView.Animated'}
         ],
         itemSelector: 'div.thumb-wrap'
     },
@@ -746,7 +749,7 @@ Ext.define('Files',{
         store = Ext.create('Ext.data.Store', {
             autoLoad: true,
             sortOnLoad: true,
-            fields: ['text', 'leaf', 'path', 'id'],
+            fields: ['text', 'leaf', 'path'],
             proxy: {
                 type: 'ajax',
                 actionMethods: {
@@ -775,11 +778,11 @@ Ext.define('Files',{
                 scope: this
             },{
                 text: 'copy',
-                handler: this.onCopyCut,
+                handler: this.onCopy,
                 scope: this
             },{
                 text: 'cut',
-                handler: this.onCopyCut,
+                handler: this.onCut,
                 scope: this
             },{
                 text: 'rename',
@@ -793,6 +796,10 @@ Ext.define('Files',{
         });
         me.panelmenu = new Ext.menu.Menu({
             items: [{
+                text: 'refresh',
+                handler: this.onRefresh,
+                scope: this
+            },{
                 text: 'paste',
                 handler: this.onPaste,
                 scope: this
@@ -806,7 +813,7 @@ Ext.define('Files',{
                 scope: this
             }]
         });
-    /*    me.editor = new Ext.Editor({
+        me.editor = new Ext.Editor({
             field: {
                 xtype: 'textfield',
                 selectOnFocus: true,
@@ -814,15 +821,16 @@ Ext.define('Files',{
             },
             completeOnEnter: true,
             cancelOnEsc: true,
+            shim: false,
+            width: '64px',
             autoSize: {
-                width: 'boundEl',
                 height: 'field'
             }
-        });*/
-        me.editor = Ext.create('Ext.ux.DataView.LabelEditor', {
+        });
+    /*    me.editor = Ext.create('Ext.ux.DataView.LabelEditor', {
             dataIndex: 'text'
         });
-        me.plugins.add(me.editor);
+        me.items.plugins.push(me.editor);*/
         me.callParent();
         me.down('dataview').on('itemcontextmenu',this.onContextMenu);
     },
@@ -852,6 +860,11 @@ Ext.define('Files',{
             });
         }
 
+        var selModel = view.selModel;
+        if(!selModel.isSelected(record)){
+            selModel.select(record);
+        }
+
         me.record = record;
         me.item = item;
 
@@ -864,9 +877,128 @@ Ext.define('Files',{
         alert('hello');
     },
 
-    onCopyCut: function(){
-        this.copy = this.record;
+    onRefresh: function(){
+        this.down('dataview').getStore().reload();
     },
+
+    onCopy: function(){
+        var view = this.down('dataview');
+        var records = view.getSelectionModel().getSelection();
+        this.copy = records;
+        this.copyOrCut = 'copy';
+    },
+
+    onCut: function(){
+        var view = this.down('dataview');
+        var records = view.getSelectionModel().getSelection();
+        this.copy = records;
+        this.copyOrCut = 'move';
+    },
+
+    onPaste: function(){
+        var me = this;
+        var view = me.down('dataview');
+        var viewStore = view.getStore();
+        var copyOrCut = me.copyOrCut;
+        var dst = me.down('textfield').getValue();
+        for(var i = 0; i < me.copy.length; i++) {
+            var src = me.copy[i].data.path;
+        //    console.log(records[i].data.text);
+            viewStore.add({
+                text: me.copy[i].data.text,
+                path: dst+'/'+me.copy[i].data.text,
+                leaf: me.copy[i].data.leaf
+            });
+            Ext.Ajax.request({
+                url: 'http://114.212.189.147:8000/fss/cpmv',
+                method: 'PUT',
+                params: {cmd: copyOrCut, src: src, dst: dst},
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                },
+                success: function (response, options) {
+                //    var res = Ext.decode(response.responseText);
+                //    alert(res.log);
+                    
+                //    console.log(newre);
+                },
+                failure: function (response, options) {
+                    alert('fail');
+                }
+            });
+        }
+    },
+
+    onNewFile: function(){
+        var me = this;
+        var view = me.down('dataview');
+        var viewStore = view.getStore();
+        var newre = viewStore.add({'text': 'newfile', 'leaf': true});
+
+        var item = view.getNode(newre[0]);
+        var el = Ext.get(item);
+        var target = el.selectNode('span.x-editable',false);
+        me.editor.startEdit(target, 'newfile');
+
+        var parent = me.down('textfield').getValue();
+        me.editor.on('complete', function(me, value, startValue){
+            var path = parent + '/' +value;
+        //    treeStore.sync();
+            Ext.Ajax.request({
+                url: 'http://114.212.189.147:8000/fss/file',
+                method: 'POST',
+                params: {cmd: 'new', content: '', path: path},
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                },
+                success: function (response, options) {
+                    newre[0].set('text', value);
+                    newre[0].set('path', path);
+                    //var res = Ext.decode(response.responseText);
+                    //alert(res.log);
+                },
+                failure: function (response, options) {
+                    alert('fail');
+                }
+            });
+        }, me, {single: true});
+    },
+
+    onNewFolder: function(){
+        var me = this;
+        var view = me.down('dataview');
+        var viewStore = view.getStore();
+        var newre = viewStore.add({'text': 'newfile', 'leaf': false});
+
+        var item = view.getNode(newre[0]);
+        var el = Ext.get(item);
+        var target = el.selectNode('span.x-editable',false);
+        me.editor.startEdit(target, 'newfolder');
+
+        var parent = me.down('textfield').getValue();
+        me.editor.on('complete', function(me, value, startValue){
+            var path = parent + '/' +value;
+        //    treeStore.sync();
+            Ext.Ajax.request({
+                url: 'http://114.212.189.147:8000/fss/directory',
+                method: 'POST',
+                params: {path: path},
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                },
+                success: function (response, options) {
+                    newre[0].set('text', value);
+                    newre[0].set('path', path);
+                    //var res = Ext.decode(response.responseText);
+                    //alert(res.log);
+                },
+                failure: function (response, options) {
+                    alert('fail');
+                }
+            });
+        }, me, {single: true});
+    },
+
 
     onRename: function(){
     /*    var view = this.down('dataview');
@@ -888,10 +1020,10 @@ Ext.define('Files',{
         var parentName = nodePath.substring(0,index);
         me.editor.on('complete', function(me, value, startValue){
             if(value == startValue){
-                alert('same');
+            //    alert('same');
                 return;
             }
-            alert('hello');
+        //    alert('hello');
             var newname = parentName + '/' +value;
             Ext.Ajax.request({
                 url: 'http://114.212.189.147:8000/fss/directory',
@@ -909,8 +1041,42 @@ Ext.define('Files',{
                 failure: function (response, options) {
                     alert('fail');
                 }
-            }, me.item, {single: true});
-        });
+            });
+        }, me, {single: true});
+
+    /*    var me = this;
+        var record = me.activeRecord;
+
+        var el = Ext.get(me.item);
+        var target = el.selectNode('span.x-editable',false);
+        me.editor.startEdit(target,record.get('text'));
+
+        me.editor.onSave*/
+    },
+
+    onDelete: function(){
+        var view = this.down('dataview');
+        var records = view.getSelectionModel().getSelection();
+        var view = this.down('dataview');
+        var viewStore = view.getStore();
+        for(var i=0; i < records.length; i++){
+            Ext.Ajax.request({
+                url: 'http://114.212.189.147:8000/fss/directory',
+                method: 'DELETE',
+                params: {path: records[i].get('path')},
+                headers: {
+                    Authorization: localStorage.getItem("token")
+                },
+                success: function (response, options) {
+                    //var res = Ext.decode(response.responseText);
+                    //alert(res.delete);
+                },
+                failure: function (response, options) {
+                    alert('fail');
+                }
+            });
+        }
+        viewStore.remove(records);
     }
 });
 
